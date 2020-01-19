@@ -1,0 +1,25 @@
+#main {
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+#title {
+    text-align: center;
+    margin: 2%;
+}
+
+.qty {
+    width: 40px;
+    height: 25px;
+    text-align: center;
+}
+
+input.qtyplus {
+    width: 25px;
+    height: 25px;
+    text-align: center;
+}
+
+.result {
+    /* margin: 5px; */
+}
