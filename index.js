@@ -1,74 +1,15 @@
 /*
-- mettre liste des joueurs sous la forme d'une tableau avec bootstrap
-- modifier la facon dont un joueur est ajouté pour que ce soit relie a list_player
-- Rajouter des bouttons pour les doubles et triples
-- indiquer à qui est le tour
-- mettre un boutton pour passer au joueur suivant (et le faire automatiquement)
-- possibilité d'ajouter un joueur à la liste et au html avec le + et le nom du joueur
-( caché ces info quand pas cliqué sur le +)
-- mettre une image de cible en bas
+- commenter le code
+- reparer le probleme
+- programmer la victoire
+- changer l'ajout d'un joueur par un form pour ajout auto
+et cacher cette partie quand terminé
+- bouton pour possibilité de modifier (ajouter ou supprimer les joueurs)
+- changer les checkbox par des boutons et afficher ceux sur qui
+on a cliqué (avec possibilité de les supprimer au besoin)
 */
 
-let listPlayers = [];
-
-// let listPlayers = [
-//   {
-//     name: "Sthaz",
-//     darts: {
-//       bubble: 0,
-//       "20": 0,
-//       "19": 0,
-//       "18": 0,
-//       "17": 0,
-//       "16": 0,
-//       "15": 0
-//     },
-//     score: 0,
-//     ranking: 1
-//   },
-//   {
-//     name: "Dooooh",
-//     darts: {
-//       bubble: 0,
-//       "20": 0,
-//       "19": 0,
-//       "18": 0,
-//       "17": 0,
-//       "16": 0,
-//       "15": 0
-//     },
-//     score: 0,
-//     ranking: 2
-//   },
-//   {
-//     name: "Sup",
-//     darts: {
-//       bubble: 0,
-//       "20": 0,
-//       "19": 0,
-//       "18": 0,
-//       "17": 0,
-//       "16": 0,
-//       "15": 0
-//     },
-//     score: 0,
-//     ranking: 3
-//   },
-//   {
-//     name: "Lexh",
-//     darts: {
-//       bubble: 0,
-//       "20": 0,
-//       "19": 0,
-//       "18": 0,
-//       "17": 0,
-//       "16": 0,
-//       "15": 0
-//     },
-//     score: 0,
-//     ranking: 4
-//   }
-// ];
+let listPlayers = translateListPlayers();
 
 let lastPlayer = 0,
   listDarts = ["bubble", 20, 19, 18, 17, 16, 15],
@@ -98,22 +39,36 @@ let lastPlayer = 0,
   orderPlayers = [0, 1, 2, 3];
 
 rebuilt_list_player();
-
 class Player {
-  constructor(name, ranking) {
+  constructor(
+    name,
+    ranking,
+    score = 0,
+    dartBubble = 0,
+    dart20 = 0,
+    dart19 = 0,
+    dart18 = 0,
+    dart17 = 0,
+    dart16 = 0,
+    dart15 = 0
+  ) {
     this.name = name;
-    this.score = 0;
+    this.score = score;
     this.darts = {
-      bubble: 0,
-      "20": 0,
-      "19": 0,
-      "18": 0,
-      "17": 0,
-      "16": 0,
-      "15": 0
+      bubble: dartBubble,
+      "20": dart20,
+      "19": dart19,
+      "18": dart18,
+      "17": dart17,
+      "16": dart16,
+      "15": dart15
     };
     this.ranking = ranking;
   }
+}
+
+function removePlayer() {
+  localStorage;
 }
 
 function addNewPlayer() {
@@ -122,6 +77,61 @@ function addNewPlayer() {
   addPlayerText.value = "";
   comput_ranking();
   rebuilt_list_player();
+  saveListPlayers();
+}
+
+function translateListPlayers() {
+  translatedListPlayers = [];
+  if (localStorage.listPlayers !== undefined) {
+    let savedListPlayers = localStorage.listPlayers;
+    savedListPlayers.split(";").forEach(playerStr => {
+      let playerSplited = playerStr.split(",");
+      console.log(playerSplited);
+      let p = new Player(
+        playerSplited[0],
+        parseInt(playerSplited[1]),
+        parseInt(playerSplited[2]),
+        parseInt(playerSplited[3]),
+        parseInt(playerSplited[4]),
+        parseInt(playerSplited[5]),
+        parseInt(playerSplited[6]),
+        parseInt(playerSplited[7]),
+        parseInt(playerSplited[8]),
+        parseInt(playerSplited[9])
+      );
+      translatedListPlayers.push(p);
+      // new Player(
+      //   playerSplited[0],
+      //   parseInt(playerSplited[1]),
+      //   parseInt(playerSplited[2]),
+      //   parseInt(playerSplited[3]),
+      //   parseInt(playerSplited[4]),
+      //   parseInt(playerSplited[5]),
+      //   parseInt(playerSplited[6]),
+      //   parseInt(playerSplited[7]),
+      //   parseInt(playerSplited[8]),
+      //   parseInt(playerSplited[9])
+      // )
+    });
+  }
+  console.log("translatedListPlayers : ", translatedListPlayers);
+  return translatedListPlayers;
+}
+
+function saveListPlayers() {
+  let savedListPlayers = "";
+  listPlayers.forEach(player => {
+    savedListPlayers +=
+      player.name +
+      "," +
+      player.ranking +
+      "," +
+      Object.values(player.darts).join() +
+      "," +
+      player.score;
+    savedListPlayers += ";";
+  });
+  localStorage.setItem("listPlayers", savedListPlayers);
 }
 
 function rebuilt_list_player() {
@@ -232,6 +242,7 @@ function nextTurn() {
   listCheckbox.forEach(checkbox => {
     document.getElementById(checkbox).checked = false;
   });
+  saveListPlayers();
 }
 
 function comput_score(lastDarts) {

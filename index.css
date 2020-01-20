@@ -8,6 +8,11 @@
     margin: 2%;
 }
 
+.title {
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
 .qty {
     width: 40px;
     height: 25px;
