@@ -24,3 +24,19 @@ input.qtyplus {
     height: 25px;
     text-align: center;
 }
+
+.currentplayerdiv {
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.currentplayer {
+    border-radius: 8px;
+    margin-left: 1%;
+    border-color: black;
+    background-color: cadetblue;
+}
+
+.currentplayer:hover {
+    background-color: cornflowerblue;
+}

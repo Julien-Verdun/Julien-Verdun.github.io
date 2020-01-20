@@ -1,6 +1,10 @@
 /*
+TO FIX
+- probleme pour compter les points
+et faire la somme 
+
+TO DO
 - commenter le code
-- reparer le probleme
 - programmer la victoire
 - changer l'ajout d'un joueur par un form pour ajout auto
 et cacher cette partie quand terminé
@@ -9,36 +13,6 @@ et cacher cette partie quand terminé
 on a cliqué (avec possibilité de les supprimer au besoin)
 */
 
-let listPlayers = translateListPlayers();
-
-let lastPlayer = 0,
-  listDarts = ["bubble", 20, 19, 18, 17, 16, 15],
-  listProperties = ["name", "darts", "score", "ranking"],
-  listCheckbox = [
-    "checkbox-20",
-    "checkbox-19",
-    "checkbox-18",
-    "checkbox-17",
-    "checkbox-16",
-    "checkbox-15",
-    "checkbox-bubble",
-    "checkbox-2x20",
-    "checkbox-2x19",
-    "checkbox-2x18",
-    "checkbox-2x17",
-    "checkbox-2x16",
-    "checkbox-2x15",
-    "checkbox-2xbubble",
-    "checkbox-3x20",
-    "checkbox-3x19",
-    "checkbox-3x18",
-    "checkbox-3x17",
-    "checkbox-3x16",
-    "checkbox-3x15"
-  ],
-  orderPlayers = [0, 1, 2, 3];
-
-rebuilt_list_player();
 class Player {
   constructor(
     name,
@@ -67,8 +41,47 @@ class Player {
   }
 }
 
-function removePlayer() {
-  localStorage;
+let lastPlayer = 0,
+  listDarts = ["bubble", 20, 19, 18, 17, 16, 15],
+  listProperties = ["name", "darts", "score", "ranking"],
+  listCheckbox = [
+    "checkbox-20",
+    "checkbox-19",
+    "checkbox-18",
+    "checkbox-17",
+    "checkbox-16",
+    "checkbox-15",
+    "checkbox-bubble",
+    "checkbox-2x20",
+    "checkbox-2x19",
+    "checkbox-2x18",
+    "checkbox-2x17",
+    "checkbox-2x16",
+    "checkbox-2x15",
+    "checkbox-2xbubble",
+    "checkbox-3x20",
+    "checkbox-3x19",
+    "checkbox-3x18",
+    "checkbox-3x17",
+    "checkbox-3x16",
+    "checkbox-3x15"
+  ],
+  orderPlayers = [];
+
+let listPlayers = translateListPlayers();
+rebuilt_list_player();
+buildPlayerPanel();
+
+/*
+NOT USED
+*/
+function removePlayer(playerName) {
+  listPlayers.forEach((player, index) => {
+    if (player.name === playerName) {
+      listPlayers.slice(index);
+    }
+  });
+  saveListPlayers();
 }
 
 function addNewPlayer() {
@@ -78,6 +91,7 @@ function addNewPlayer() {
   comput_ranking();
   rebuilt_list_player();
   saveListPlayers();
+  buildPlayerPanel();
 }
 
 function translateListPlayers() {
@@ -86,35 +100,23 @@ function translateListPlayers() {
     let savedListPlayers = localStorage.listPlayers;
     savedListPlayers.split(";").forEach(playerStr => {
       let playerSplited = playerStr.split(",");
-      console.log(playerSplited);
-      let p = new Player(
-        playerSplited[0],
-        parseInt(playerSplited[1]),
-        parseInt(playerSplited[2]),
-        parseInt(playerSplited[3]),
-        parseInt(playerSplited[4]),
-        parseInt(playerSplited[5]),
-        parseInt(playerSplited[6]),
-        parseInt(playerSplited[7]),
-        parseInt(playerSplited[8]),
-        parseInt(playerSplited[9])
+      translatedListPlayers.push(
+        new Player(
+          playerSplited[0], // name
+          parseInt(playerSplited[1]), // ranking
+          parseInt(playerSplited[9]), // score
+          parseInt(playerSplited[2]), // darts
+          parseInt(playerSplited[3]),
+          parseInt(playerSplited[4]),
+          parseInt(playerSplited[5]),
+          parseInt(playerSplited[6]),
+          parseInt(playerSplited[7]),
+          parseInt(playerSplited[8])
+        )
       );
-      translatedListPlayers.push(p);
-      // new Player(
-      //   playerSplited[0],
-      //   parseInt(playerSplited[1]),
-      //   parseInt(playerSplited[2]),
-      //   parseInt(playerSplited[3]),
-      //   parseInt(playerSplited[4]),
-      //   parseInt(playerSplited[5]),
-      //   parseInt(playerSplited[6]),
-      //   parseInt(playerSplited[7]),
-      //   parseInt(playerSplited[8]),
-      //   parseInt(playerSplited[9])
-      // )
+      orderPlayers.push(parseInt(playerSplited[1]));
     });
   }
-  console.log("translatedListPlayers : ", translatedListPlayers);
   return translatedListPlayers;
 }
 
@@ -131,7 +133,10 @@ function saveListPlayers() {
       player.score;
     savedListPlayers += ";";
   });
-  localStorage.setItem("listPlayers", savedListPlayers);
+  localStorage.setItem(
+    "listPlayers",
+    savedListPlayers.slice(0, savedListPlayers.length - 1)
+  );
 }
 
 function rebuilt_list_player() {
@@ -237,8 +242,9 @@ function changePlayerScore(lastDarts) {
 function nextTurn() {
   //faire les modifications necessaire
   lastPlayer = lastPlayer < listPlayers.length - 1 ? lastPlayer + 1 : 0;
-  var currentPlayer = document.getElementById("current-player");
-  currentPlayer.innerHTML = "Current player : " + listPlayers[lastPlayer].name;
+  modifyPlayerPanel();
+  // var currentPlayer = document.getElementById("current-player");
+  // currentPlayer.innerHTML = "Current player : " + listPlayers[lastPlayer].name;
   listCheckbox.forEach(checkbox => {
     document.getElementById(checkbox).checked = false;
   });
@@ -291,4 +297,49 @@ function comput_ranking() {
   listPlayers.forEach((player, index) => {
     player.ranking = orderPlayers[index];
   });
+}
+
+function modifyPlayerPanel() {
+  var listPlayerPanel = document.getElementById("current-player-panel")
+    .childNodes;
+  if (lastPlayer !== 0) {
+    listPlayerPanel[lastPlayer].setAttribute(
+      "style",
+      "background-color:cornflowerblue;"
+    );
+    listPlayerPanel[lastPlayer - 1].setAttribute(
+      "style",
+      "background-color:cadetblue;"
+    );
+  } else {
+    listPlayerPanel[0].setAttribute(
+      "style",
+      "background-color:cornflowerblue;"
+    );
+    listPlayerPanel[listPlayerPanel.length - 1].setAttribute(
+      "style",
+      "background-color:cadetblue;"
+    );
+  }
+}
+
+function buildPlayerPanel() {
+  deleteListPanel();
+  var listPlayerPanel = document.getElementById("current-player-panel");
+
+  var playerElt;
+  listPlayers.forEach(player => {
+    playerElt = document.createElement("div");
+    playerElt.innerHTML = player.name;
+    playerElt.setAttribute("class", "col btn btn-secondary currentplayer");
+    listPlayerPanel.appendChild(playerElt);
+  });
+  modifyPlayerPanel();
+}
+
+function deleteListPanel() {
+  var listPlayerPanel = document.getElementById("current-player-panel");
+  while (listPlayerPanel.hasChildNodes()) {
+    listPlayerPanel.removeChild(listPlayerPanel.firstChild);
+  }
 }
