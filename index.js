@@ -78,10 +78,17 @@ NOT USED
 function removePlayer(playerName) {
   listPlayers.forEach((player, index) => {
     if (player.name === playerName) {
-      listPlayers.slice(index);
+      listPlayers.splice(index);
     }
   });
   saveListPlayers();
+}
+
+function removeAllPlayers() {
+  listPlayers.splice(0, listPlayers.length);
+  saveListPlayers();
+  buildPlayerPanel();
+  rebuilt_list_player();
 }
 
 function addNewPlayer() {
@@ -99,22 +106,24 @@ function translateListPlayers() {
   if (localStorage.listPlayers !== undefined) {
     let savedListPlayers = localStorage.listPlayers;
     savedListPlayers.split(";").forEach(playerStr => {
-      let playerSplited = playerStr.split(",");
-      translatedListPlayers.push(
-        new Player(
-          playerSplited[0], // name
-          parseInt(playerSplited[1]), // ranking
-          parseInt(playerSplited[9]), // score
-          parseInt(playerSplited[2]), // darts
-          parseInt(playerSplited[3]),
-          parseInt(playerSplited[4]),
-          parseInt(playerSplited[5]),
-          parseInt(playerSplited[6]),
-          parseInt(playerSplited[7]),
-          parseInt(playerSplited[8])
-        )
-      );
-      orderPlayers.push(parseInt(playerSplited[1]));
+      if (playerStr !== "") {
+        let playerSplited = playerStr.split(",");
+        translatedListPlayers.push(
+          new Player(
+            playerSplited[0], // name
+            parseInt(playerSplited[1]), // ranking
+            parseInt(playerSplited[9]), // score
+            parseInt(playerSplited[2]), // darts
+            parseInt(playerSplited[3]),
+            parseInt(playerSplited[4]),
+            parseInt(playerSplited[5]),
+            parseInt(playerSplited[6]),
+            parseInt(playerSplited[7]),
+            parseInt(playerSplited[8])
+          )
+        );
+        orderPlayers.push(parseInt(playerSplited[1]));
+      }
     });
   }
   return translatedListPlayers;
@@ -133,10 +142,14 @@ function saveListPlayers() {
       player.score;
     savedListPlayers += ";";
   });
-  localStorage.setItem(
-    "listPlayers",
-    savedListPlayers.slice(0, savedListPlayers.length - 1)
-  );
+  if (savedListPlayers !== "") {
+    localStorage.setItem(
+      "listPlayers",
+      savedListPlayers.slice(0, savedListPlayers.length - 1)
+    );
+  } else {
+    localStorage.removeItem("listPlayers");
+  }
 }
 
 function rebuilt_list_player() {
@@ -173,26 +186,32 @@ function delete_list_player() {
 }
 
 function savePlayerTurn() {
-  let playerResultText = document.getElementById("listOfButtons");
-  let inputs = [];
-  let divs = playerResultText.childNodes;
-  divs.forEach(div => {
-    if (div.localName === "div") {
-      inputs = inputs.concat(...div.childNodes);
-    }
-  });
-  let lastDarts = {};
-  inputs.forEach((input, index) => {
-    if (input.checked === true) {
-      lastDarts[input.name] = 1;
-    }
-  });
-  lastDarts = procesLastDarts(lastDarts);
-  // modifier le score du joueur et fermé les scores complets
+  console.log(listPlayers);
+  if (listPlayers.length > 0) {
+    let playerResultText = document.getElementById("listOfButtons");
+    let inputs = [];
+    let divs = playerResultText.childNodes;
+    divs.forEach(div => {
+      if (div.localName === "div") {
+        inputs = inputs.concat(...div.childNodes);
+      }
+    });
+    let lastDarts = {};
+    inputs.forEach((input, index) => {
+      if (input.checked === true) {
+        lastDarts[input.name] = 1;
+      }
+    });
+    lastDarts = procesLastDarts(lastDarts);
+    // modifier le score du joueur et fermé les scores complets
 
-  //compute new score and update the plaer which just payed
-  changePlayerScore(lastDarts);
-  rebuilt_list_player();
+    //compute new score and update the plaer which just payed
+    changePlayerScore(lastDarts);
+    rebuilt_list_player();
+  } else {
+    console.log("Pas de joueur");
+    //display message
+  }
   nextTurn();
 }
 
@@ -302,24 +321,26 @@ function comput_ranking() {
 function modifyPlayerPanel() {
   var listPlayerPanel = document.getElementById("current-player-panel")
     .childNodes;
-  if (lastPlayer !== 0) {
-    listPlayerPanel[lastPlayer].setAttribute(
-      "style",
-      "background-color:cornflowerblue;"
-    );
-    listPlayerPanel[lastPlayer - 1].setAttribute(
-      "style",
-      "background-color:cadetblue;"
-    );
-  } else {
-    listPlayerPanel[0].setAttribute(
-      "style",
-      "background-color:cornflowerblue;"
-    );
-    listPlayerPanel[listPlayerPanel.length - 1].setAttribute(
-      "style",
-      "background-color:cadetblue;"
-    );
+  if (listPlayerPanel.length > 0) {
+    if (lastPlayer !== 0) {
+      listPlayerPanel[lastPlayer].setAttribute(
+        "style",
+        "background-color:cornflowerblue;"
+      );
+      listPlayerPanel[lastPlayer - 1].setAttribute(
+        "style",
+        "background-color:cadetblue;"
+      );
+    } else {
+      listPlayerPanel[0].setAttribute(
+        "style",
+        "background-color:cornflowerblue;"
+      );
+      listPlayerPanel[listPlayerPanel.length - 1].setAttribute(
+        "style",
+        "background-color:cadetblue;"
+      );
+    }
   }
 }
 

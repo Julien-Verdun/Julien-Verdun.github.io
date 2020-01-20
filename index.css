@@ -40,3 +40,7 @@ input.qtyplus {
 .currentplayer:hover {
     background-color: cornflowerblue;
 }
+
+#remove-button-div {
+    margin-top: 5%;
+}
