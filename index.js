@@ -6,6 +6,9 @@ et faire la somme
 TO DO
 - commenter le code
 - programmer la victoire
+- mettre des messages d'erreur lorsque : 
+    trop de fleche ont ete choisies
+    aucun joueur n'a ete selectionné
 - changer l'ajout d'un joueur par un form pour ajout auto
 et cacher cette partie quand terminé
 - bouton pour possibilité de modifier (ajouter ou supprimer les joueurs)
@@ -71,6 +74,7 @@ let lastPlayer = 0,
 let listPlayers = translateListPlayers();
 rebuilt_list_player();
 buildPlayerPanel();
+alert(0);
 
 /*
 NOT USED
@@ -99,6 +103,7 @@ function addNewPlayer() {
   rebuilt_list_player();
   saveListPlayers();
   buildPlayerPanel();
+  alert(-1);
 }
 
 function translateListPlayers() {
@@ -196,21 +201,27 @@ function savePlayerTurn() {
         inputs = inputs.concat(...div.childNodes);
       }
     });
-    let lastDarts = {};
+    let lastDarts = {},
+      numberDarts = 0;
     inputs.forEach((input, index) => {
       if (input.checked === true) {
+        numberDarts += 1;
         lastDarts[input.name] = 1;
       }
     });
-    lastDarts = procesLastDarts(lastDarts);
-    // modifier le score du joueur et fermé les scores complets
+    if (numberDarts > 3) {
+      alert(2);
+    } else {
+      alert(-2);
+      lastDarts = procesLastDarts(lastDarts);
+      // modifier le score du joueur et fermé les scores complets
 
-    //compute new score and update the plaer which just payed
-    changePlayerScore(lastDarts);
-    rebuilt_list_player();
+      //compute new score and update the plaer which just payed
+      changePlayerScore(lastDarts);
+      rebuilt_list_player();
+    }
   } else {
-    console.log("Pas de joueur");
-    //display message
+    alert(1);
   }
   nextTurn();
 }
@@ -362,5 +373,28 @@ function deleteListPanel() {
   var listPlayerPanel = document.getElementById("current-player-panel");
   while (listPlayerPanel.hasChildNodes()) {
     listPlayerPanel.removeChild(listPlayerPanel.firstChild);
+  }
+}
+
+function alert(number) {
+  /*
+  number -> 0 for n alert, 1 for no player and 2 for too much darts
+  - 1 hides no player alert and -2 hides too much darts alert
+  */
+  alertNoData = document.getElementById("alert-no-player");
+  alertTooMuchDarts = document.getElementById("alert-too-much-darts");
+  if (number === 0) {
+    alertNoData.style.display = "none";
+    alertTooMuchDarts.style.display = "none";
+  } else if (number === 1) {
+    alertNoData.style.display = "block";
+    alertTooMuchDarts.style.display = "none";
+  } else if (number === -1) {
+    alertNoData.style.display = "none";
+  } else if (number === -2) {
+    alertTooMuchDarts.style.display = "none";
+  } else {
+    alertNoData.style.display = "none";
+    alertTooMuchDarts.style.display = "block";
   }
 }
