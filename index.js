@@ -1,21 +1,12 @@
 /*
-TO FIX
-- probleme pour compter les points
-et faire la somme 
-
-TO DO
-- commenter le code
-- programmer la victoire
-- mettre des messages d'erreur lorsque : 
-    trop de fleche ont ete choisies
-    aucun joueur n'a ete selectionné
-- changer l'ajout d'un joueur par un form pour ajout auto
-et cacher cette partie quand terminé
-- bouton pour possibilité de modifier (ajouter ou supprimer les joueurs)
-- changer les checkbox par des boutons et afficher ceux sur qui
-on a cliqué (avec possibilité de les supprimer au besoin)
+Julien Verdun
+24/01/2020
+Web application : Cut-throat criket
 */
 
+/* 
+This class creates an object with all a player properties.
+*/
 class Player {
   constructor(
     name,
@@ -44,9 +35,9 @@ class Player {
   }
 }
 
-let lastPlayer = 0,
-  listDarts = ["bubble", 20, 19, 18, 17, 16, 15],
-  listProperties = ["name", "darts", "score", "ranking"],
+let lastPlayer = 0, // index of the last player who played
+  listDarts = ["bubble", 20, 19, 18, 17, 16, 15], //list of the rewarded darts
+  listProperties = ["name", "darts", "score", "ranking"], //list of the different player properties
   listCheckbox = [
     "checkbox-20",
     "checkbox-19",
@@ -68,33 +59,30 @@ let lastPlayer = 0,
     "checkbox-3x17",
     "checkbox-3x16",
     "checkbox-3x15"
-  ],
-  orderPlayers = [];
+  ], //list of the different checkbox's id
+  orderPlayers = []; //list of the order of players
 
 let listPlayers = translateListPlayers();
 rebuilt_list_player();
 buildPlayerPanel();
 alert(0);
+hideGame(false);
 
 /*
-NOT USED
+This function removes all the player from the application (the list of players is emptied).
 */
-function removePlayer(playerName) {
-  listPlayers.forEach((player, index) => {
-    if (player.name === playerName) {
-      listPlayers.splice(index);
-    }
-  });
-  saveListPlayers();
-}
-
 function removeAllPlayers() {
   listPlayers.splice(0, listPlayers.length);
   saveListPlayers();
   buildPlayerPanel();
   rebuilt_list_player();
+  hideGame(false);
 }
 
+/*
+This function allows to add a new player to the game.
+It is possible to add players at any time with the input text and green button.
+*/
 function addNewPlayer() {
   addPlayerText = document.getElementById("add-player-text");
   listPlayers.push(new Player(addPlayerText.value, 0));
@@ -106,6 +94,10 @@ function addNewPlayer() {
   alert(-1);
 }
 
+/*
+This function transforms a string into an object Player.
+It is used to translate the local storage data.
+*/
 function translateListPlayers() {
   translatedListPlayers = [];
   if (localStorage.listPlayers !== undefined) {
@@ -134,6 +126,9 @@ function translateListPlayers() {
   return translatedListPlayers;
 }
 
+/*
+This function saves the list of player into the local storage.
+*/
 function saveListPlayers() {
   let savedListPlayers = "";
   listPlayers.forEach(player => {
@@ -157,6 +152,9 @@ function saveListPlayers() {
   }
 }
 
+/*
+This function destroys the html elements and rebuilts new one with the values of list players. 
+*/
 function rebuilt_list_player() {
   delete_list_player();
   var listPlayerDisplayed = document.getElementById("list-players-content");
@@ -183,6 +181,9 @@ function rebuilt_list_player() {
   });
 }
 
+/*
+This funtion deletes the players in the html div.
+*/
 function delete_list_player() {
   var listPlayerDisplayed = document.getElementById("list-players-content");
   while (listPlayerDisplayed.hasChildNodes()) {
@@ -190,8 +191,11 @@ function delete_list_player() {
   }
 }
 
+/*
+This function reads the checkboxes and changes the table and score depending
+on the last player actions.
+*/
 function savePlayerTurn() {
-  console.log(listPlayers);
   if (listPlayers.length > 0) {
     let playerResultText = document.getElementById("listOfButtons");
     let inputs = [];
@@ -226,6 +230,11 @@ function savePlayerTurn() {
   nextTurn();
 }
 
+/*
+This function takes the object that gives the last player actions and
+changes it into an object with only the dart touched and the number of 
+dart touched.
+*/
 function procesLastDarts(lastDarts) {
   let lastDartsProcessed = {};
   Object.keys(lastDarts).forEach(dart => {
@@ -246,11 +255,11 @@ function procesLastDarts(lastDarts) {
   return lastDartsProcessed;
 }
 
+/*
+This function changes the list of darts of the current player 
+depending on the last turn he did.
+*/
 function changePlayerScore(lastDarts) {
-  /*
-  This function changes the list of darts of the current player 
-  depending on the last turn he did.
-  */
   if (Object.keys(lastDarts).length > 0) {
     Object.keys(lastDarts).forEach(dart => {
       if (listPlayers[lastPlayer].darts[dart] < 3) {
@@ -269,6 +278,9 @@ function changePlayerScore(lastDarts) {
   }
 }
 
+/*
+This function realises all the main actions for changing the player turn.
+*/
 function nextTurn() {
   //faire les modifications necessaire
   lastPlayer = lastPlayer < listPlayers.length - 1 ? lastPlayer + 1 : 0;
@@ -279,16 +291,24 @@ function nextTurn() {
     document.getElementById(checkbox).checked = false;
   });
   saveListPlayers();
+  if (is_victory().victory === true) {
+    hideGame(true);
+    endRanking = document.getElementById("end-ranking");
+    endRanking.innerHTML =
+      "This is the end of the game. Player " +
+      is_victory().player +
+      " won the match.";
+  }
 }
 
+/*
+This function takes the list of players and the 
+last move (3 darts max) and calculates the new score 
+and ranking of every player and updates the properties.
+lastDarts is an object which includes one or several 
+targets and the number of time they have been hit. 
+*/
 function comput_score(lastDarts) {
-  /*
-  This function takes the list of players and the 
-  last move (3 darts max) and calculates the new score 
-  and ranking of every player and updates the properties.
-  lastDarts is an object which includes one or several 
-  targets and the number of time they have been hit. 
-  */
   listPlayers.forEach((player, index) => {
     if (lastPlayer !== index) {
       Object.keys(lastDarts).forEach(dart => {
@@ -305,12 +325,11 @@ function comput_score(lastDarts) {
   comput_ranking();
 }
 
-// revoir ça
+/*
+This function takes the list of players and calculates
+the rank of every player, and updates the property.
+*/
 function comput_ranking() {
-  /*
-  This function takes the list of players and calculates
-  the rank of every player, and updates the property.
-  */
   let list_score = listPlayers.map(player => player.score);
 
   indexedScore = list_score.map(function(e, i) {
@@ -329,6 +348,9 @@ function comput_ranking() {
   });
 }
 
+/*
+This function modifies the color of the button which shows whose turn it is.
+*/
 function modifyPlayerPanel() {
   var listPlayerPanel = document.getElementById("current-player-panel")
     .childNodes;
@@ -355,6 +377,9 @@ function modifyPlayerPanel() {
   }
 }
 
+/*
+This function build the list of buttons which show whose turn it is.
+*/
 function buildPlayerPanel() {
   deleteListPanel();
   var listPlayerPanel = document.getElementById("current-player-panel");
@@ -369,6 +394,9 @@ function buildPlayerPanel() {
   modifyPlayerPanel();
 }
 
+/*
+This function deletes the list of panel.
+*/
 function deleteListPanel() {
   var listPlayerPanel = document.getElementById("current-player-panel");
   while (listPlayerPanel.hasChildNodes()) {
@@ -376,9 +404,12 @@ function deleteListPanel() {
   }
 }
 
+/*
+This function displays some alerts when no player has been entered or too much darts has been checked.
+*/
 function alert(number) {
   /*
-  number -> 0 for n alert, 1 for no player and 2 for too much darts
+  number -> 0 for no alert, 1 for no player and 2 for too much darts
   - 1 hides no player alert and -2 hides too much darts alert
   */
   alertNoData = document.getElementById("alert-no-player");
@@ -397,4 +428,33 @@ function alert(number) {
     alertNoData.style.display = "none";
     alertTooMuchDarts.style.display = "block";
   }
+}
+/*
+This function displays either the game table and checkboxes or a div
+for congrtulate the winner.
+*/
+function hideGame(bool) {
+  document.getElementById("congratulation-message").style.display =
+    bool === false ? "none" : "block";
+  document.getElementById("game-stuff").style.display =
+    bool === false ? "block" : "none";
+}
+
+/*
+This function is looking whether or not a player won the game.
+A player won the game when he has reached every targets at least
+3 times and has a score lower than all other players.
+*/
+function is_victory() {
+  let output = {};
+  listPlayers.some(player => {
+    var numberDarts = 0;
+    Object.keys(player.darts).forEach(dart => {
+      numberDarts += parseInt(player.darts[dart]);
+    });
+    if (numberDarts === 21) {
+      output = { victory: true, player: player.name };
+    }
+  });
+  return output !== {} ? output : { victory: false }; // ;
 }

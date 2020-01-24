@@ -3,7 +3,6 @@
 
     <head>
         <meta charset="utf-8">
-        <link rel="icon" type="image/png" href="favicon.png">
         <title>Cut-throat cricket</title>
         <meta name="description" content="An interface that manage a darts game">
 
@@ -35,131 +34,159 @@
             </h3>
 
 
-            <div class="listPlayers">
-                <h4 id="list-player-title" class="title">
-                    Players ranking</h4>
+            <div id="game-stuff">
 
-                <div id="alert-no-player" class="alert alert-danger" role="alert">
-                    Please add a player !
+                <div class="listPlayers">
+                    <h4 id="list-player-title" class="title">
+                        Players ranking</h4>
+
+                    <div id="alert-no-player" class="alert alert-danger" role="alert">
+                        Please add a player !
+                    </div>
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Bubble</th>
+                                <th scope="col">20</th>
+                                <th scope="col">19</th>
+                                <th scope="col">18</th>
+                                <th scope="col">17</th>
+                                <th scope="col">16</th>
+                                <th scope="col">15</th>
+                                <th scope="col">Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list-players-content">
+                            <tr>
+                                <th scope="row">Sthaz</th>
+                                <td> </td>
+                                <td>X</td>
+                                <td>X</td>
+                                <td>II</td>
+                                <td>II</td>
+                                <td></td>
+                                <td>I</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Sup</th>
+                                <td> </td>
+                                <td>X</td>
+                                <td></td>
+                                <td></td>
+                                <td>II</td>
+                                <td></td>
+                                <td>I</td>
+                                <td>123</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Lexh</th>
+                                <td> </td>
+                                <td>I</td>
+                                <td></td>
+                                <td>X</td>
+                                <td>I</td>
+                                <td>II</td>
+                                <td>I</td>
+                                <td>45</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Dooooh</th>
+                                <td> </td>
+                                <td>I</td>
+                                <td></td>
+                                <td></td>
+                                <td>II</td>
+                                <td></td>
+                                <td>I</td>
+                                <td>12</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div class="form-group row">
+                        <!-- <button type="submit" id="add-player-button" class='qtyplus'>+</button> -->
+                        <input type="text" id="add-player-text" class="form-control col-8" placeholder="New player" />
+                        <button type="button" class="col-4 btn btn-success" onclick="addNewPlayer()"
+                            id="add-player-name">Valider</button>
+                    </div>
+
                 </div>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Bubble</th>
-                            <th scope="col">20</th>
-                            <th scope="col">19</th>
-                            <th scope="col">18</th>
-                            <th scope="col">17</th>
-                            <th scope="col">16</th>
-                            <th scope="col">15</th>
-                            <th scope="col">Score</th>
-                        </tr>
-                    </thead>
-                    <tbody id="list-players-content">
-                        <tr>
-                            <th scope="row">Sthaz</th>
-                            <td> </td>
-                            <td>X</td>
-                            <td>X</td>
-                            <td>II</td>
-                            <td>II</td>
-                            <td></td>
-                            <td>I</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Sup</th>
-                            <td> </td>
-                            <td>X</td>
-                            <td></td>
-                            <td></td>
-                            <td>II</td>
-                            <td></td>
-                            <td>I</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Lexh</th>
-                            <td> </td>
-                            <td>I</td>
-                            <td></td>
-                            <td>X</td>
-                            <td>I</td>
-                            <td>II</td>
-                            <td>I</td>
-                            <td>45</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Dooooh</th>
-                            <td> </td>
-                            <td>I</td>
-                            <td></td>
-                            <td></td>
-                            <td>II</td>
-                            <td></td>
-                            <td>I</td>
-                            <td>12</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+                <div class="gamecontrollers">
+                    <h4 class="title">Players moves</h4>
 
 
-                <div class="form-group row">
-                    <!-- <button type="submit" id="add-player-button" class='qtyplus'>+</button> -->
-                    <input type="text" id="add-player-text" class="form-control col-8" placeholder="New player" />
-                    <button type="button" class="col-4 btn btn-success" onclick="addNewPlayer()"
-                        id="add-player-name">Valider</button>
+                    <div id="alert-too-much-darts" class="alert alert-danger" role="alert">
+                        Please select at most 3 darts !
+                    </div>
+
+                    <div id="current-player-panel" class="row currentplayerdiv">
+                        <div class="col btn btn-secondary currentplayer">Sthaz</div>
+                        <div class="col btn btn-secondary currentplayer">Lexh</div>
+                    </div>
+
+                    <div id="listOfButtons" class="row">
+                        <div class="col">
+                            <input class="row" id="checkbox-20" type="checkbox" name="20" value="20">20</input>
+                            <input class="row" id="checkbox-19" type="checkbox" name="19" value="19">19</input>
+                            <input class="row" id="checkbox-18" type="checkbox" name="18" value="18">18</input>
+                            <input class="row" id="checkbox-17" type="checkbox" name="17" value="17">17</input>
+                            <input class="row" id="checkbox-16" type="checkbox" name="16" value="16">16</input>
+                            <input class="row" id="checkbox-15" type="checkbox" name="15" value="15">15</input>
+                            <input class="row" id="checkbox-bubble" type="checkbox" name="bubble"
+                                value="bubble">Bubble</input>
+                        </div>
+                        <div class="col">
+                            <input class="row" id="checkbox-2x20" type="checkbox" name="2x20" value="20">Double
+                            20</input>
+                            <input class="row" id="checkbox-2x19" type="checkbox" name="2x19" value="19">Double
+                            19</input>
+                            <input class="row" id="checkbox-2x18" type="checkbox" name="2x18" value="18">Double
+                            18</input>
+                            <input class="row" id="checkbox-2x17" type="checkbox" name="2x17" value="17">Double
+                            17</input>
+                            <input class="row" id="checkbox-2x16" type="checkbox" name="2x16" value="16">Double
+                            16</input>
+                            <input class="row" id="checkbox-2x15" type="checkbox" name="2x15" value="15">Double
+                            15</input>
+                            <input class="row" id="checkbox-2xbubble" type="checkbox" name="2xbubble"
+                                value="bubble">Double
+                            bubble</input>
+                        </div>
+                        <div class="col">
+                            <input class="row" id="checkbox-3x20" type="checkbox" name="3x20" value="20">Triple
+                            20</input>
+                            <input class="row" id="checkbox-3x19" type="checkbox" name="3x19" value="19">Triple
+                            19</input>
+                            <input class="row" id="checkbox-3x18" type="checkbox" name="3x18" value="18">Triple
+                            18</input>
+                            <input class="row" id="checkbox-3x17" type="checkbox" name="3x17" value="17">Triple
+                            17</input>
+                            <input class="row" id="checkbox-3x16" type="checkbox" name="3x16" value="16">Triple
+                            16</input>
+                            <input class="row" id="checkbox-3x15" type="checkbox" name="3x15" value="15">Triple
+                            15</input>
+                            <button id="submit-button" type="button" onclick="savePlayerTurn()"
+                                class="btn btn-primary col result">Submit</button>
+                        </div>
+                    </div>
                 </div>
-
             </div>
 
-
-            <div class="gamecontrollers">
-                <h4 class="title">Players moves</h4>
-
-
-                <div id="alert-too-much-darts" class="alert alert-danger" role="alert">
-                    Please select at most 3 darts !
-                </div>
-
-                <div id="current-player-panel" class="row currentplayerdiv">
-                    <div class="col btn btn-secondary currentplayer">Sthaz</div>
-                    <div class="col btn btn-secondary currentplayer">Lexh</div>
-                </div>
-
-                <div id="listOfButtons" class="row">
-                    <div class="col">
-                        <input class="row" id="checkbox-20" type="checkbox" name="20" value="20">20</input>
-                        <input class="row" id="checkbox-19" type="checkbox" name="19" value="19">19</input>
-                        <input class="row" id="checkbox-18" type="checkbox" name="18" value="18">18</input>
-                        <input class="row" id="checkbox-17" type="checkbox" name="17" value="17">17</input>
-                        <input class="row" id="checkbox-16" type="checkbox" name="16" value="16">16</input>
-                        <input class="row" id="checkbox-15" type="checkbox" name="15" value="15">15</input>
-                        <input class="row" id="checkbox-bubble" type="checkbox" name="bubble"
-                            value="bubble">Bubble</input>
-                    </div>
-                    <div class="col">
-                        <input class="row" id="checkbox-2x20" type="checkbox" name="2x20" value="20">Double 20</input>
-                        <input class="row" id="checkbox-2x19" type="checkbox" name="2x19" value="19">Double 19</input>
-                        <input class="row" id="checkbox-2x18" type="checkbox" name="2x18" value="18">Double 18</input>
-                        <input class="row" id="checkbox-2x17" type="checkbox" name="2x17" value="17">Double 17</input>
-                        <input class="row" id="checkbox-2x16" type="checkbox" name="2x16" value="16">Double 16</input>
-                        <input class="row" id="checkbox-2x15" type="checkbox" name="2x15" value="15">Double 15</input>
-                        <input class="row" id="checkbox-2xbubble" type="checkbox" name="2xbubble" value="bubble">Double
-                        bubble</input>
-                    </div>
-                    <div class="col">
-                        <input class="row" id="checkbox-3x20" type="checkbox" name="3x20" value="20">Triple 20</input>
-                        <input class="row" id="checkbox-3x19" type="checkbox" name="3x19" value="19">Triple 19</input>
-                        <input class="row" id="checkbox-3x18" type="checkbox" name="3x18" value="18">Triple 18</input>
-                        <input class="row" id="checkbox-3x17" type="checkbox" name="3x17" value="17">Triple 17</input>
-                        <input class="row" id="checkbox-3x16" type="checkbox" name="3x16" value="16">Triple 16</input>
-                        <input class="row" id="checkbox-3x15" type="checkbox" name="3x15" value="15">Triple 15</input>
-                        <button id="submit-button" type="button" onclick="savePlayerTurn()"
-                            class="btn btn-primary col result">Submit</button>
-                    </div>
+            <div id="congratulation-message">
+                <div class="alert alert-success" role="alert">
+                    <h4 class="alert-heading">Well done!</h4>
+                    <p id="end-ranking">This is the end of the game.
+                        Player Sthaz won the match.
+                    </p>
+                    <hr>
+                    <p class="mb-0">You can play an other game, just press the button below !
+                    </p>
                 </div>
             </div>
 

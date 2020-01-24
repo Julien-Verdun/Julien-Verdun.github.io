@@ -13,7 +13,7 @@ The **goal** of this game is to be the first who closes all the segments and has
 
 ## Deployment
 
-The application is deployed with GitHub at the following address
+The application has been deployed with GitHub at the following address
 [julien-verdun.github.io](https://julien-verdun.github.io/).
 
 ### Overview of the application
