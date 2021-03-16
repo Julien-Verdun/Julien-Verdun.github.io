@@ -1,51 +1,9 @@
-#main {
-    margin-left: 5%;
-    margin-right: 5%;
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #title {
-    text-align: center;
     margin: 2%;
-}
-
-.title {
-    margin-top: 2%;
-    margin-bottom: 2%;
-}
-
-.qty {
-    width: 40px;
-    height: 25px;
-    text-align: center;
-}
-
-input.qtyplus {
-    width: 25px;
-    height: 25px;
-    text-align: center;
-}
-
-.currentplayerdiv {
-    margin-top: 2%;
-    margin-bottom: 2%;
-}
-
-.currentplayer {
-    border-radius: 8px;
-    margin-left: 1%;
-    border-color: black;
-    background-color: cadetblue;
-}
-
-.currentplayer:hover {
-    background-color: cornflowerblue;
-}
-
-#remove-button-div {
-    margin-top: 2%;
-}
-
-
-#congratulation-message {
-    margin: 10%;
 }
