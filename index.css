@@ -22,8 +22,8 @@ h5{
 .gameIcon {
     max-width: 200px;
     max-height: 200px;
-    /* width:200px; */
-    /* height:200px; */
+    width:200px;
+    height:200px;
     border-radius: 5px;
     border-width: 5px;
     border-style: groove;
@@ -34,8 +34,10 @@ h5{
 }
 
 .imageGame {
+    max-width: 190px;
+    max-height: 190px;
     width:190px;
-    height : 190px;
+    height:190px;
     margin:5%;
 }
 
