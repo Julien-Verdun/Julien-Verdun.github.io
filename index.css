@@ -1,3 +1,7 @@
+body {
+    margin:2%;
+}
+
 .main {
     display: flex;
     align-items: center;
@@ -7,3 +11,83 @@
 #title {
     margin: 2%;
 }
+
+h5{
+    margin-left:2%;
+}
+
+.btn { margin : 1%};
+
+
+.gameIcon {
+    width:200px;
+    height:200px;
+    border-radius: 5px;
+    border-width: 5px;
+    border-style: groove;
+    margin:5%;
+    display:grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.imageGame {
+    width:190px;
+    height : 190px;
+    margin:5%;
+}
+
+.game-name{
+    margin: auto;
+}
+/* 
+
+#myanimation{
+    width:20px;
+    height:20px;
+    margin-top:5%;
+    border-radius: 5px;
+    background-color: black;
+    animation-duration: 6s;
+    animation-name: myanimation;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-direction: alternate;
+}
+
+@keyframes myanimation {
+    from {
+      margin-left: 40%;
+      margin-top:5%;
+      transform: rotate(0deg);
+    }
+
+    25% {
+        background-color: blue;
+        margin-left: 50%;
+        margin-top:0%;
+        transform: rotate(360deg);
+    }
+
+    50% {
+        margin-left: 60%;
+        margin-top:5%;
+        transform: rotate(0deg);
+    }
+
+    75% {
+        background-color: blue;
+        margin-left: 50%;
+        margin-top:10%;
+        transform: rotate(360deg);
+    }
+  
+    to {
+        margin-left: 40%;
+        margin-top:5%;
+        transform: rotate(0deg);
+    }
+  } */
+
+
+

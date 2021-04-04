@@ -1,0 +1,17 @@
+
+
+/* ERROR 404 */
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#title {
+    margin: 2%;
+}
+
+.btn{
+    margin:2%;
+}

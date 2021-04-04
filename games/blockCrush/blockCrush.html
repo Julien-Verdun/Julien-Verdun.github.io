@@ -3,8 +3,8 @@
 
     <head>
         <meta charset="utf-8">
-        <title>Error 404</title>
-        <meta name="description" content="My GitHub Pages Content">
+        <title>Block Crush</title>
+        <meta name="description" content="Block Crush">
         
         
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -20,20 +20,35 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
         </script>
 
-        <link rel="stylesheet" href="404.css">
+        <link rel="stylesheet" href="blockCrush.css">
         
 
     </head>
 
     <body id="body">
+
         <h3 id="title" class="main">
-            Error 404
+            Block Crush
         </h3>
-        
+
+
+        <h5 id ="game-state" class="main"></h5>
+
+        <canvas id="myCanvas" width="480" height="320"></canvas>
+
+        <div class="main">
+            <button type="button" class="btn btn-success" onClick='start()'>Start</button>
+        </div>
+
+
+        <div class="main">
+            <button type="button" class="btn btn-primary" onClick='window.location.href=window.location.origin'>Home</button>
+        </div>
+
 
  
     </body>
 
-    <script src="404.js"></script>
+    <script src="blockCrush.js"></script>
 
     </html>
