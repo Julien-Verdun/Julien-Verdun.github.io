@@ -21,4 +21,4 @@ The application has been deployed with GitHub at the following address
 
 Here is an overniew of the application, a game beetwen 3 player (Thibault, Thierry and Laurent).
 
-![Overview of the application](overview_darts.PNG)
+![Overview of the application](images/overview_darts.PNG)
