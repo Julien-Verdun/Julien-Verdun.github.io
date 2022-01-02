@@ -1,0 +1,23 @@
+/* Block Crush */
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#title {
+    margin: 2%;
+}
+
+.btn{
+    margin:1%;
+}
+
+
+canvas { background: #eee; display: block; margin: 0 auto; }
+
+#myCanvas{
+    width:"600px";
+    height:"600px";
+}
